@@ -12,6 +12,7 @@ use App\Services\Impl\ProductServices;
 use App\Services\Services;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
+use URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -55,6 +56,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //loca host thi dong
+//        URL::forceScheme('https');
     }
 }

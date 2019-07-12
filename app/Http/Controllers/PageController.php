@@ -20,10 +20,13 @@ class PageController extends Controller
     {
         $slide = Slide::all();
         $new_product = Product::where('new', 1)->paginate(4);
+        $total_new_product = Product::where('new', 1)->get();
         $sale_product = Product::where('promotion_price', '<>', 0)->paginate(8);
+        $total_sale_product = Product::where('promotion_price', '<>', 0)->get();
         $cart = Session::get('cart');
         $product_type = ProductType::all();
-        return view('layout.index', compact('slide', 'new_product', 'sale_product', 'cart', 'product_type'));
+        return view('layout.index', compact('slide', 'new_product',
+            'sale_product', 'cart', 'product_type', 'total_new_product', 'total_sale_product'));
     }
 
     public function getProductType($type)
@@ -119,7 +122,7 @@ class PageController extends Controller
         $keyword = $request->input('keyword');
         $total = Product::where('name', 'LIKE', '%' . $keyword . '%')->get();
         $products = Product::where('name', 'LIKE', '%' . $keyword . '%')->paginate(8);
-        return view('layout.Search', compact('products','total'));
+        return view('layout.Search', compact('products', 'total'));
     }
 
 

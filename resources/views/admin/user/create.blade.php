@@ -9,48 +9,79 @@
                         <small>Add</small>
                     </h1>
                 </div>
+                <form action="{{route('admin.user.store')}}" method="POST">
+                @csrf
                 <!-- /.col-lg-12 -->
-                <div class="col-lg-7" style="padding-bottom:120px">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Category Parent</label>
-                            <select class="form-control">
-                                <option value="0">Please Choose Category</option>
-                                <option value="">Tin Tức</option>
-                            </select>
+                    <div class="form-group row">
+                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="name" type="text"
+                                   class="form-control @error('name') is-invalid @enderror" name="name"
+                                   value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                            @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
-                        <div class="form-group">
-                            <label>Category Name</label>
-                            <input class="form-control" name="txtCateName" placeholder="Please Enter Category Name"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="email"
+                               class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="email" type="email"
+                                   class="form-control @error('email') is-invalid @enderror" name="email"
+                                   value="{{ old('email') }}" required autocomplete="email">
+
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
-                        <div class="form-group">
-                            <label>Category Order</label>
-                            <input class="form-control" name="txtOrder" placeholder="Please Enter Category Order"/>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password"
+                               class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="password" type="password"
+                                   class="form-control @error('password') is-invalid @enderror" name="password"
+                                   required autocomplete="new-password">
+
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
-                        <div class="form-group">
-                            <label>Category Keywords</label>
-                            <input class="form-control" name="txtOrder" placeholder="Please Enter Category Keywords"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password-confirm"
+                               class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="password-confirm" type="password" class="form-control"
+                                   name="password_confirmation" required autocomplete="new-password">
                         </div>
-                        <div class="form-group">
-                            <label>Category Description</label>
-                            <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group row mb-0 center">
+                        <div class="col-md-6 offset-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Register') }}
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label>Category Status</label>
-                            <label class="radio-inline">
-                                <input name="rdoStatus" value="1" checked="" type="radio">Visible
-                            </label>
-                            <label class="radio-inline">
-                                <input name="rdoStatus" value="2" type="radio">Invisible
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-default">Category Add</button>
-                        <button type="reset" class="btn btn-default">Reset</button>
-                        <form>
-                </div>
+                    </div>
+                </form>
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
     </div>
 @endsection

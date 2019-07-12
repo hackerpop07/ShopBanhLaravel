@@ -11,7 +11,7 @@
                 </div>
                 <!-- /.col-lg-12 -->
                 <div class="col-lg-7" style="padding-bottom:120px">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('admin.product.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Tên Bánh</label>
@@ -28,7 +28,7 @@
                             <label>Loại Bánh</label>
                             <select class="form-control" name="id_type">
                                 @foreach($category as $key => $value)
-                                    <option>{{$value->name}}</option>
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -86,7 +86,13 @@
 
                         <div class="form-group">
                             <label>Ảnh</label>
-                            <input type="file" class="form-control" name="image"/>
+                            <input type="file"
+                                   onchange="document.getElementById('image').src = window.URL.createObjectURL(this.files[0])"
+                                   class="form-control-file"
+                                   name="image"
+                            >
+                            <img id="image" src=""
+                                 style="height: 50px"/>
                         </div>
                         @error('image')
                         <div class="alert alert-danger" role="alert">
@@ -95,7 +101,7 @@
                         @enderror
 
                         <div class="form-group">
-                            <label>Category Description</label>
+                            <label>Mô Tả</label>
                             <textarea class="form-control" rows="3"
                                       name="description">{{ old('description') }}</textarea>
                         </div>
@@ -105,8 +111,7 @@
                         </div>
                         @enderror
 
-                        <button type="submit" class="btn btn-default">Category Add</button>
-                        <button type="reset" class="btn btn-default">Reset</button>
+                        <button type="submit" class="btn btn-default">Thêm Mới</button>
                         <form>
                 </div>
             </div>

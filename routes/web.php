@@ -34,6 +34,15 @@ Route::prefix('admin')->group(function () {
         Route::get('{id}/delete', 'ProductController@destroy')->name('admin.product.destroy');
         Route::post('search', 'ProductController@search')->name('admin.product.search');
     });
+    Route::prefix('user')->group(function () {
+        Route::get('index', 'UserController@index')->name('admin.user.index');
+        Route::get('create', 'UserController@create')->name('admin.user.create');
+        Route::post('create', 'UserController@store')->name('admin.user.store');
+        Route::get('{id}/edit', 'UserController@edit')->name('admin.user.edit');
+        Route::post('{id}/edit', 'UserController@update')->name('admin.user.update');
+        Route::get('{id}/delete', 'UserController@destroy')->name('admin.user.destroy');
+        Route::post('search', 'UserController@search')->name('admin.user.search');
+    });
 });
 
 Route::get('/', 'PageController@index')->name('page.index');

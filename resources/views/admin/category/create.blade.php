@@ -25,7 +25,13 @@
 
                         <div class="form-group">
                             <label>Ảnh</label>
-                            <input type="file" class="form-control" name="image"/>
+                            <input type="file"
+                                   onchange="document.getElementById('image').src = window.URL.createObjectURL(this.files[0])"
+                                   class="form-control-file"
+                                   name="image"
+                            >
+                            <img id="image" src=""
+                                 style="height: 50px"/>
                         </div>
                         @error('image')
                         <div class="alert alert-danger" role="alert">

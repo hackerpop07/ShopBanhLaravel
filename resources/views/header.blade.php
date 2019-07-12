@@ -9,6 +9,11 @@
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
+                    @if (Auth::check())
+                        @if(Auth::id()==4)
+                            <li><a href="{{route('admin.category.index')}}">Quản Lý</a></li>
+                        @endif
+                    @endif
                     <li><a href="#"><i class="fa fa-user"></i>
                             @if (Auth::check())
                                 {{Auth::user()->name}}
@@ -37,7 +42,7 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="index.html" id="logo"><img src="storage/source/assets/dest/images/logo-cake.png" width="200px"
+                <a href="" id="logo"><img src="storage/source/assets/dest/images/logo-cake.png" width="200px"
                                                     alt=""></a>
             </div>
             <div class="pull-right beta-components space-left ov">

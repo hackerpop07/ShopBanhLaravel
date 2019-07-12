@@ -20,8 +20,9 @@
                                          data-oheight="undefined">
                                         <div class="tp-bgimg defaultimg" data-lazyload="undefined" data-bgfit="cover"
                                              data-bgposition="center center" data-bgrepeat="no-repeat"
-                                             data-lazydone="undefined" src="storage/source/image/slide/{{$sld->image}}"
-                                             data-src="storage/source/image/slide/{{$sld->image}}"
+                                             data-lazydone="undefined"
+                                             src="{{asset("storage/source/image/slide/$sld->image")}}"
+                                             data-src="{{asset("storage/source/image/slide/$sld->image")}}"
                                              style="background-color: rgba(0, 0, 0, 0); background-repeat: no-repeat; background-image: url('storage/source/image/slide/{{$sld->image}}'); background-size: cover; background-position: center center; width: 100%; height: 100%; opacity: 1; visibility: inherit;">
                                         </div>
                                     </div>
@@ -46,7 +47,7 @@
                         <div class="beta-products-list">
                             <h4>Sản phẩm mới</h4>
                             <div class="beta-products-details">
-                                <p class="pull-left">Tìm thấy {{count($new_product)}} sản phẩm</p>
+                                <p class="pull-left">Tìm thấy {{count($total_new_product)}} sản phẩm</p>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="row">
@@ -96,15 +97,17 @@
                         <div class="beta-products-list">
                             <h4>Sản phẩm khuyến mãi</h4>
                             <div class="beta-products-details">
-                                <p class="pull-left">Tìm thấy {{count($sale_product)}}</p>
+                                <p class="pull-left">Tìm thấy {{count($total_sale_product)}}</p>
                                 <div class="clearfix"></div>
                             </div>
                             @foreach($sale_product as $product)
                                 <div class="col-sm-3">
                                     <div class="single-item">
-                                        <div class="ribbon-wrapper">
-                                            <div class="ribbon sale">Sale</div>
-                                        </div>
+                                        @if($new->promotion_price!=0)
+                                            <div class="ribbon-wrapper">
+                                                <div class="ribbon sale">Sale</div>
+                                            </div>
+                                        @endif
 
                                         <div class="single-item-header">
                                             <a href="{{route('page.getProductDetail',$product->id)}}"><img

@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreate;
+use App\Http\Requests\ProductUpdate;
 use App\Product;
 use App\ProductType;
 use App\Repository\Contracts\ProductRepositoryInterface;
 use App\Services\Impl\ProductServices;
 use App\Services\Services;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('checkadmin');
+    }
+
     public function index()
     {
         $products = Product::paginate(8);
@@ -48,12 +57,6 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -64,61 +67,41 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
         $total = Product::where('name', 'LIKE', '%' . $keyword . '%')->get();
         $products = Product::where('name', 'LIKE', '%' . $keyword . '%')->paginate(8);
-        return view('admin.category.search', compact('total', 'products'));
+        return view('admin.product.search', compact('total', 'products'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $category = ProductType::findOrFail($id);
-        return view('admin.category.edit', compact('category'));
+        $product = Product::findOrFail($id);
+        $category = ProductType::all();
+        return view('admin.product.edit', compact('product', 'category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(CategoryUpdate $request, $id)
+    public function update(ProductUpdate $request, $id)
     {
-        $category = ProductType::findOrFail($id);
-        $category->name = $request->name;
-        $category->description = $request->description;
+        $product = Product::findOrFail($id);
+        $product->name = $request->name;
+        $product->id_type = $request->id_type;
+        $product->description = $request->description;
+        $product->unit_price = $request->unit_price;
+        $product->promotion_price = $request->promotion_price;
+        $product->unit = $request->unit;
+        $product->new = $request->new;
         if ($request->hasFile('image')) {
-            $this->deleteFile('source/image/product/' . $category->image);
             $file = $request->image;
             $file->store('source/image/product', 'public');
-            $category->image = $file->hashName();
+            $product->image = $file->hashName();
         }
-        $this->categoryRepository->create($category);
-        return redirect()->route('admin.category.index');
+        $product->save();
+        return redirect()->route('admin.product.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $category = $this->categoryRepository->findById($id);
-        $products = Product::where('id_type', $id)->get();
-        foreach ($products as $key => $value) {
-            $product = Product::findOrFail($value->id);
-            $this->deleteFile("storage/source/image/product/$value->image");
-            $product->delete();
-        }
-        $this->deleteFile("storage/source/image/product/$category->image");
-        $this->categoryRepository->delete($category);
-        return redirect()->route('admin.category.index');
+        $product = Product::findOrFail($id);
+        $this->deleteFile("storage/source/image/product/$product->image");
+        $product->delete();
+        return redirect()->route('admin.product.index');
     }
 
     public function deleteFile($url)
