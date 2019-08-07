@@ -11,8 +11,8 @@ use App\Repository\Eloquent\ProductEloquentRepository;
 use App\Services\Impl\ProductServices;
 use App\Services\Services;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,7 +56,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         //loca host thi dong
+//        $this->app['request']->server->set('HTTPS', true);
 //        URL::forceScheme('https');
     }
 }
